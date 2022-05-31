@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="relay.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>Dash-board-co2</title>
+</head>
+
+<body>
+    <aside>
+        <div class="logo"><img src="co2.png" alt="pic-co2"></div>
+        <div class="side-list">
+
+            <a href="#" onclick="show_setting()"><span>Setting Server</span></a>
+
+        </div>
+        <div class="set-server" id="setting">
+            <a href="#" onclick="close_setting()"><span>close</span></a><br>
+            <h3>MQTT Connect</h3>
+            <form action="">
+                <label for="host-url" id="url-label">Host URL</label>
+                <input type="url" id="host-url" required name="host-url"
+                    placeholder="           https://www.broker.com/"><br>
+                <label for="host-ip" id="ip-label">Host ip</label>
+                <input type="text" name="host-ip" id="host-ip" placeholder="            xxx.xxx.xxx.xxx">
+                <br><br><label for="username" id="user-lb">Username</label>
+                <input type="text" name="username" id="user" placeholder="            admin12345">
+                <br><label for="password" id="pass-lb">Password</label>
+                <input type="password" name="passwoed" id="password" placeholder="            1234567">
+                <br><br>
+                <div id="btn-connect">
+                    <button type="submit">Connect</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </aside>
+
+
+
+    <section>
+
+        <div class="display-co2" id="ds-co2">
+            <h4>Value-Co2h4</h4>
+            <img src="meter.png" alt="">
+            <p>value :&ensp; 900 ppm</p>
+        </div>
+
+        <div class="display-co2" id="status-relay">
+            <h4>Status Relay</h4>
+            <div class="frame-ds-relay">
+                <p id="show-status">OFF</p>
+            </div>
+        </div>
+
+        <div class="display-co2" id="order">
+
+            <h4 id="auto">Automation </h4>
+            <button class="btn-start btn" onclick="sendStart()">Start</button>
+            <button class="btn-stop btn" onclick="sendStop()">Stop</button>
+            <h4 id="text-manual">Manual on-off</h4>
+            <label class="switch">
+
+                <input type="checkbox" onclick="sendON()">
+                <span class="slider" on></span>
+            </label>
+
+        </div>
+
+        <div class="display-co2" id="input-mn">
+            <!-- min-value -->
+            <h4>Input-min-max</h4>
+            <p>Min-value : <span id="show-min"></span></p>
+            <form action="#">
+                <input type="range" min="1" max="3000" value="1000" id="minV">
+                <input type="submit" id="sub-min">
+            </form>
+
+            <!-- max-value -->
+            <h4>Input-min-max</h4>
+            <p>Max-value : <span id="show-max"></span></p>
+            <form action="#">
+                <input type="range" min="1" max="3000" value="1000" id="maxV">
+                <input type="submit" id="sub-max">
+            </form>
+
+
+        </div>
+
+        <div class="display-co2" id="status-mn-mx">
+            <h4>Status MIN MAX</h4>
+            <div class="frame-ds-mnmx">
+                <p>Min Value :<span id="show-value-min"></span>&nbsp; PPM</p>
+                <p>Max Value :<span id="show-value-max"></span> &nbsp;PPM</p>
+            </div>
+        </div>
+
+        <!-- <div class="display-co2">
+            Lorem ipsum dolor sit amet.
+        </div> -->
+
+    </section>
+
+
+    <script>
+        // show status min max
+        var check = false;
+        // ==============================================
+        function sendON() {
+            if (!check) {
+                document.getElementById("show-status").innerHTML = "on";
+                check = true;
+            }
+            else if (check) {
+                document.getElementById("show-status").innerHTML = "off";
+                check = false;
+            }
+
+        }
+
+
+
+        function sendStart() {
+            document.getElementById("show-status").innerHTML = "start";
+        }
+        function sendStop() {
+            document.getElementById("show-status").innerHTML = "stop";
+        }
+
+        // =========================================================
+        // input min-max
+        var slider = document.getElementById("minV");
+        var output = document.getElementById("show-min");
+        var outvaluemn = document.getElementById("show-value-min");
+
+        var slider2 = document.getElementById("maxV");
+        var output2 = document.getElementById("show-max");
+        var outvaluemx = document.getElementById("show-value-max");
+        // ========
+
+        output.innerHTML = slider.value;
+        output2.innerHTML = slider2.value;
+        outvaluemn.innerHTML = slider.value;
+        outvaluemx.innerHTML = slider2.value;
+
+        // min-func
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+            outvaluemn.innerHTML = this.value;
+
+        }
+        // max-func
+        slider2.oninput = function () {
+            output2.innerHTML = this.value;
+            outvaluemx.innerHTML = this.value;
+
+        }
+        // ==================================
+        // setting server
+        var set = document.getElementById("setting")
+        function show_setting() {
+            set.style.width = "500px";
+        }
+        var close_set = document.getElementById("setting")
+        function close_setting() {
+            close_set.style.width = "0";
+        }
+
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>
